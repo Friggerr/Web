@@ -1,5 +1,5 @@
 var soap = require('soap');
-  var url = 'http://127.0.0.1:8000/wsdl?wsdl';
+  var url = 'https://st-soap.herokuapp.com/wsdl?wsdl';
   var args = {name: "12"};
   soap.createClient(url, function(err, client) {
       client.sayHello(args, function(err, result) {
