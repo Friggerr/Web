@@ -6,23 +6,15 @@ var xpath = require('xpath')
 var helloService = {
     Hello_Service: {
         Hello_Port: {
-            sayHello: function (args) {
-                var xml2 = '\movieG5.xml';
-                /*var doc = new dom().parseFromString(xml2);
-                console.log(doc);
-                var query = xpath.select("//director.text()", doc).toString()*/
-                return {
-                  name:"args.name"
-                };
-               /* var val;
-                if (args.licenseKey = '0') {
-                    val = "hello";
-                } else {
-                    val = "good bye";
-                }
-                return {
-                    returnNaJa: val
-                };*/
+            sayHello: function(args) {
+                  var xml = require('fs').readFileSync('movieG5.xml', 'utf8')
+                  var doc = new dom().parseFromString(xml)
+                  var nodes = xpath.select("/movielist/movie/name/text()", doc).toString()
+                  console.log(nodes)
+                  return {
+                      title:nodes
+                  };
+              
             }
         }
     }
@@ -32,8 +24,9 @@ var xml = require('fs').readFileSync('HelloService.wsdl', 'utf8'),
           response.end("404: Not Found: " + request.url)
       });
 
-      server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
-        var addr = server.address();
-        console.log("Chat server listening at", addr.address + ":" + addr.port);
-      });
-      soap.listen(server, '/wsdl', helloService, xml);
+server.listen(8000,"127.0.0.1", function(){
+  var addr = server.address();
+  console.log("server listening at", addr.address + ":" + addr.port);
+  });
+
+soap.listen(server, '/wsdl', helloService, xml);
